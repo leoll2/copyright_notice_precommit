@@ -1,0 +1,5 @@
+- id: copyright-notice
+  name: copyright-notice
+  description: "Make sure that your files always contain a proper copyright notice"
+  entry: copyright-notice
+  language: python

@@ -1,0 +1,12 @@
+[default]
+check-filename = true
+check-file = true
+locale = "en-us"
+
+[default.extend-identifiers]
+ret = "ret"
+
+[default.extend-words]
+
+[files]
+ignore-dot = true

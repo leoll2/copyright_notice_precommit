@@ -1,0 +1,3 @@
+lorem
+pytest
+pytest-cov
