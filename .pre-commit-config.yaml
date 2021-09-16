@@ -6,7 +6,6 @@ repos:
       - id: check-ast
       - id: check-docstring-first
       - id: debug-statements
-      - id: detect-aws-credentials
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: name-tests-test
@@ -71,7 +70,3 @@ repos:
     rev: v1.17.0
     hooks:
       - id: setup-cfg-fmt
-  - repo: 'https://github.com/sirosen/check-jsonschema'
-    rev: 0.4.1
-    hooks:
-      - id: check-travis
