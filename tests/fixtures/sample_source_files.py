@@ -43,6 +43,20 @@ DUMMY_TEXTS = (
 )
 
 
+@pytest.fixture
+def source_code_once():  # type: ignore
+    preamble: str = DUMMY_TEXT_4
+    body: str = DUMMY_TEXT_6
+    yield preamble + body
+
+
+@pytest.fixture
+def source_code_once_as_file(source_code_once, tmp_path):  # type: ignore
+    source_code_path = tmp_path / "source_code.py"
+    source_code_path.write_text(source_code_once)
+    yield source_code_path
+
+
 @pytest.fixture(params=itertools.product(DUMMY_TEXTS, DUMMY_TEXTS))
 def source_code_with_notice(notice_cpy, request):  # type: ignore
     preamble: str = request.param[0]

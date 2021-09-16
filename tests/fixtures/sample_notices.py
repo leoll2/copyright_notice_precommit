@@ -4,6 +4,7 @@
 """Fixtures to generate sample copyright notices"""
 
 import itertools
+import os
 
 import pytest
 
@@ -51,4 +52,24 @@ notice_cpy = notice
 def notice_as_file(notice, tmp_path):
     notice_path = tmp_path / "notice.txt"
     notice_path.write_text(notice)
+    yield notice_path
+
+
+@pytest.fixture
+def notice_once():
+    yield NOTICE_TEXT_3
+
+
+@pytest.fixture
+def notice_once_as_file(notice_once, tmp_path):
+    notice_path = tmp_path / "notice.txt"
+    notice_path.write_text(notice_once)
+    yield notice_path
+
+
+@pytest.fixture
+def notice_unreadable_once_as_file(notice_once, tmp_path):
+    notice_path = tmp_path / "notice.txt"
+    notice_path.write_text(notice_once)
+    os.chmod(notice_path, 0)
     yield notice_path

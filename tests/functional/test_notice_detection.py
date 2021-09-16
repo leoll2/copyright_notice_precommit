@@ -6,8 +6,16 @@ Test the ability of the script to detect copyright notices.
 """
 
 import filecmp
+from unittest.mock import patch
 
+import pytest
 from scripts.copyright_notice import CopyrightNoticeChecker
+from scripts.error import (
+    CopyrightNoticeParsingError,
+    CopyrightNoticeTemplateFileNotFoundError,
+    CopyrightNoticeValidationError,
+    SourceCodeFileNotFoundError,
+)
 
 
 def show_file_and_notice(source_code_filepath, notice_template_filepath):
@@ -35,3 +43,44 @@ class TestNoticeDetection:
             )
             == should_be_found
         ), show_file_and_notice(source_code_full_path, notice_as_file)
+
+    def test_missing_notice(self, source_code_once_as_file):
+        notice_path = "/nonexisting/path"
+        with pytest.raises(CopyrightNoticeTemplateFileNotFoundError):
+            CopyrightNoticeChecker.check_files_have_notice(
+                filenames=[source_code_once_as_file],
+                notice_path=notice_path,
+                enforce_all=True,
+            )
+
+    def test_missing_source_file(self, notice_once_as_file):
+        source_code_path = "/nonexisting/path"
+        with pytest.raises(SourceCodeFileNotFoundError):
+            CopyrightNoticeChecker.check_files_have_notice(
+                filenames=[source_code_path],
+                notice_path=notice_once_as_file,
+                enforce_all=True,
+            )
+
+    def test_unreadable_notice(
+        self, source_code_once_as_file, notice_unreadable_once_as_file
+    ):
+        with pytest.raises(CopyrightNoticeParsingError):
+            CopyrightNoticeChecker.check_files_have_notice(
+                filenames=[source_code_once_as_file],
+                notice_path=notice_unreadable_once_as_file,
+                enforce_all=True,
+            )
+
+    def test_validation_error(self, source_code_once_as_file, notice_once_as_file):
+        with patch.object(
+            CopyrightNoticeChecker, "file_contains_valid_notice"
+        ) as mock_fn:
+            mock_fn.side_effect = Exception("intentionally raised from mocked method")
+
+            with pytest.raises(CopyrightNoticeValidationError):
+                CopyrightNoticeChecker.check_files_have_notice(
+                    filenames=[source_code_once_as_file],
+                    notice_path=notice_once_as_file,
+                    enforce_all=True,
+                )
