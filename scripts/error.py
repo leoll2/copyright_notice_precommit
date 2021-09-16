@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 
+"""Errors and exceptions"""
+
 import logging
 from typing import Dict, Type
 
 
 class CopyrightNoticeTemplateFileNotFoundError(FileNotFoundError):
+    """Copyright notice template file not found"""
+
     def __init__(self, filepath: str):
         msg = f"Copyright notice template not found at: {filepath}"
         logging.error(msg)
@@ -12,6 +16,8 @@ class CopyrightNoticeTemplateFileNotFoundError(FileNotFoundError):
 
 
 class SourceCodeFileNotFoundError(FileNotFoundError):
+    """Source code file not found"""
+
     def __init__(self, filepath: str):
         msg = f"Source code file not found at: {filepath}"
         logging.error(msg)
@@ -19,6 +25,8 @@ class SourceCodeFileNotFoundError(FileNotFoundError):
 
 
 class CopyrightNoticeParsingError(RuntimeError):
+    """Error while parsing the copyright notice file"""
+
     def __init__(self, filepath: str, reason: str = ""):
         msg = f"Failed to parse copyright notice at: {filepath}. Reason: {reason}"
         logging.error(msg)
@@ -26,6 +34,8 @@ class CopyrightNoticeParsingError(RuntimeError):
 
 
 class CopyrightNoticeValidationError(RuntimeError):
+    """Error while checking the code for a copyright notice"""
+
     def __init__(self, filepath: str, reason: str = ""):
         msg = f"Failed to parse copyright notice at: {filepath}. Reason: {reason}"
         logging.error(msg)

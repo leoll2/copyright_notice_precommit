@@ -10,14 +10,14 @@ import pytest
 # Note: when writing new dummy test notices, make sure none of them
 #   is a prefix string of another one.
 
-notice_text_1 = """Copyright Notice (C) 1970"""
+NOTICE_TEXT_1 = """Copyright Notice (C) 1970"""
 
-notice_text_2 = """Copyright Notice
+NOTICE_TEXT_2 = """Copyright Notice
 
 This software is distributed under the ACME license.
 All rights reserved."""
 
-notice_text_3 = """Copyright (C) ACME Inc - All Rights Reserved
+NOTICE_TEXT_3 = """Copyright (C) ACME Inc - All Rights Reserved
 
 Unauthorized copying of this file, via any medium is strictly prohibited.
 Proprietary and confidential.
@@ -26,9 +26,9 @@ Written by Wile E. Coyote <wilecoyote@acme.com>
 
 
 notice_texts = (
-    notice_text_1,
-    notice_text_2,
-    notice_text_3,
+    NOTICE_TEXT_1,
+    NOTICE_TEXT_2,
+    NOTICE_TEXT_3,
 )
 
 assert not any(

@@ -19,31 +19,31 @@ import itertools
 import lorem
 import pytest
 
-dummy_text_1 = ""
-dummy_text_2 = "\n"
-dummy_text_3 = "\r\n"
-dummy_text_4 = """#!/usr/bin python env
+DUMMY_TEXT_1 = ""
+DUMMY_TEXT_2 = "\n"
+DUMMY_TEXT_3 = "\r\n"
+DUMMY_TEXT_4 = """#!/usr/bin python env
 
 # one comment
 # another comment
 """
-dummy_text_5 = """#~!@$%^&*()_+{}:"|<>?[];',/.\\
+DUMMY_TEXT_5 = """#~!@$%^&*()_+{}:"|<>?[];',/.\\
 1234567890
 abcdefgh
 """
-dummy_text_6 = lorem.text()
+DUMMY_TEXT_6 = lorem.text()
 
-dummy_texts = (
-    dummy_text_1,
-    dummy_text_2,
-    dummy_text_4,
-    dummy_text_3,
-    dummy_text_5,
-    dummy_text_6,
+DUMMY_TEXTS = (
+    DUMMY_TEXT_1,
+    DUMMY_TEXT_2,
+    DUMMY_TEXT_4,
+    DUMMY_TEXT_3,
+    DUMMY_TEXT_5,
+    DUMMY_TEXT_6,
 )
 
 
-@pytest.fixture(params=itertools.product(dummy_texts, dummy_texts))
+@pytest.fixture(params=itertools.product(DUMMY_TEXTS, DUMMY_TEXTS))
 def source_code_with_notice(notice_cpy, request):  # type: ignore
     preamble: str = request.param[0]
     body: str = request.param[1]

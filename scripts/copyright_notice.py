@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
+"""Entry point and core logic of the copyright-notice-precommit"""
+
 import argparse
 import logging
 import mmap
 import os.path
+import sys
 from typing import Optional, Sequence
 
 from scripts.error import (
@@ -18,6 +21,8 @@ from .util import added_files, parse_file_as_bytes
 
 
 class CopyrightNoticeChecker:
+    """Copyright notice checker for source code files"""
+
     @staticmethod
     def file_contains_valid_notice(filepath: str, notice_pattern: bytes) -> bool:
         """
@@ -30,13 +35,13 @@ class CopyrightNoticeChecker:
         if not os.path.exists(filepath):
             raise SourceCodeFileNotFoundError(filepath)
         ret = False
-        with open(filepath, "rb", 0) as f, mmap.mmap(
-            f.fileno(), 0, access=mmap.ACCESS_READ
-        ) as b:
-            found_pos = b.find(notice_pattern)
+        with open(filepath, "rb", 0) as f_src, mmap.mmap(
+            f_src.fileno(), 0, access=mmap.ACCESS_READ
+        ) as src_bytes:
+            found_pos = src_bytes.find(notice_pattern)
             if found_pos != -1:
                 ret = True
-        logging.debug(f"File: {filepath}  NoticePos: {found_pos}")
+        logging.debug("File: %s  NoticePos: %d", filepath, found_pos)
         return ret
 
     @staticmethod
@@ -64,10 +69,10 @@ class CopyrightNoticeChecker:
         # Load notice
         try:
             notice_pattern = parse_file_as_bytes(notice_path)
-        except FileNotFoundError:
-            raise CopyrightNoticeTemplateFileNotFoundError(notice_path)
+        except FileNotFoundError as exc:
+            raise CopyrightNoticeTemplateFileNotFoundError(notice_path) from exc
         except Exception as exc:
-            raise CopyrightNoticeParsingError(notice_path, str(exc))
+            raise CopyrightNoticeParsingError(notice_path, str(exc)) from exc
 
         # Define the set of files to check
         filepaths_filtered = set(filenames)
@@ -82,11 +87,11 @@ class CopyrightNoticeChecker:
                     filepath, notice_pattern
                 ):
                     logging.warning(
-                        f"File {filepath} does not contain a valid copyright notice."
+                        "File %s does not contain a valid copyright notice.", filepath
                     )
                     ret = False
             except Exception as exc:
-                raise CopyrightNoticeValidationError(notice_path, str(exc))
+                raise CopyrightNoticeValidationError(notice_path, str(exc)) from exc
         return ret
 
     @staticmethod
@@ -108,11 +113,13 @@ class CopyrightNoticeChecker:
                 filenames=filenames, notice_path=notice_path, enforce_all=enforce_all
             )
             return 0 if has_notice else 1
-        except Exception as exc:
+        except Exception as exc:  # pylint: disable=broad-except
             return exception_to_retcode_mapping.get(exc.__class__, 255)
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
+    """copyright-notice-precommit entry point"""
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "filenames",
@@ -137,4 +144,4 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
 
 if __name__ == "__main__":
-    exit(main())
+    sys.exit(main())
