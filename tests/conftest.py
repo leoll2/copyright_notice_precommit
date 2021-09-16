@@ -1,4 +1,4 @@
 pytest_plugins = [
-    "fixtures.sample_notices",
-    "fixtures.sample_source_files",
+    "tests.fixtures.sample_notices",
+    "tests.fixtures.sample_source_files",
 ]

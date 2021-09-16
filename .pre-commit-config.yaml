@@ -65,3 +65,7 @@ repos:
     rev: v1.17.0
     hooks:
     -   id: setup-cfg-fmt
+-   repo: https://github.com/sirosen/check-jsonschema
+    rev: 0.4.1
+    hooks:
+    - id: check-travis

@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.6"
+  - "3.9"
+  - "nightly"
+  - "pypy3"
+before_install:
+  - python --version
+  - pip install -U pip
+install:
+  - pip install -r tests/requirements.txt
+  - pip install .
+script:
+  - pytest
+after_success:
+  - codecov
