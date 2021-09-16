@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.com/leoll2/copyright_notice_precommit.svg?branch=main)](https://travis-ci.com/leoll2/copyright_notice_precommit)
 [![codecov](https://codecov.io/gh/leoll2/copyright_notice_precommit/branch/main/graph/badge.svg?token=6F45J0MPOD)](https://codecov.io/gh/leoll2/copyright_notice_precommit)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/leoll2/copyright_notice_precommit/main.svg)](https://results.pre-commit.ci/latest/github/leoll2/copyright_notice_precommit/main)
-[![Code quality: Inspector](https://www.code-inspector.com/project/28978/status/svg)](https://www.code-inspector.com)
+[![Code quality: Inspector](https://www.code-inspector.com/project/28978/status/svg)](https://www.code-inspector.com/public/project/28978/copyright_notice_precommit/dashboard)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 This is a [pre-commit](https://pre-commit.com/) hook to make sure you don't forget adding the copyright notice when committing a (new) file.
