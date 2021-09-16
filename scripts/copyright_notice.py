@@ -90,6 +90,8 @@ class CopyrightNoticeChecker:
                         "File %s does not contain a valid copyright notice.", filepath
                     )
                     ret = False
+            except SourceCodeFileNotFoundError:
+                raise
             except Exception as exc:
                 raise CopyrightNoticeValidationError(notice_path, str(exc)) from exc
         return ret
