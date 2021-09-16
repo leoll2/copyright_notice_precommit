@@ -6,6 +6,7 @@ Test the ability of the script to detect copyright notices.
 """
 
 import filecmp
+import os
 from unittest.mock import patch
 
 import pytest
@@ -62,6 +63,7 @@ class TestNoticeDetection:
                 enforce_all=True,
             )
 
+    @pytest.mark.skipif(os.name == "nt", reason="chmod not fully supported in Windows")
     def test_unreadable_notice(
         self, source_code_once_as_file, notice_unreadable_once_as_file
     ):
