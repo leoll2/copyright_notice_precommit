@@ -4,7 +4,7 @@
 """
 Test command-line options parsing
 """
-
+import os
 import shlex
 from typing import List, Sequence
 from unittest.mock import patch
@@ -19,7 +19,7 @@ class TestCmdline:
     def _build_cmd(files: Sequence[str], options: Sequence[str]) -> List[str]:
         files = list(files)
         options = list(options)
-        return shlex.split(" ".join(options + files))
+        return shlex.split(" ".join(options + files), posix=(os.name != "nt"))
 
     @staticmethod
     def _test_call(
