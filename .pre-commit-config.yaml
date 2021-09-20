@@ -54,7 +54,7 @@ repos:
           - '-ll'
           - '-ii'
   - repo: 'https://github.com/crate-ci/typos'
-    rev: v1.1.9
+    rev: typos-v0.7.4
     hooks:
       - id: typos
         args:
