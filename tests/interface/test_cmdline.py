@@ -86,15 +86,15 @@ class TestCmdline:
             enforce_all=True,
             autofix=True,
         )
-        with open(this_init) as f:
-            content = f.read()
+        with open(this_init, encoding="utf8") as init:
+            content = init.read()
 
         assert "Wile E. Coyote" not in content
 
     def test_autofix_basic(self, tmp_path):
         file_to_autofix = tmp_path / "file_to_autofix.py"
-        with open(file_to_autofix, "w") as f:
-            f.write("a = 42")
+        with open(file_to_autofix, "w", encoding="utf8") as fta:
+            fta.write("a = 42")
         notice = Path(__file__).parent.parent / "fixtures" / "notice.txt"
         CopyrightNoticeChecker.check_files_have_notice(
             filenames=[str(file_to_autofix)],
@@ -102,6 +102,6 @@ class TestCmdline:
             enforce_all=True,
             autofix=True,
         )
-        with open(file_to_autofix) as f:
-            content = f.read()
+        with open(file_to_autofix, encoding="utf8") as fta:
+            content = fta.read()
         assert "Wile E. Coyote" in content
