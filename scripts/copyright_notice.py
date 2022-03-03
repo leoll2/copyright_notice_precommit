@@ -34,8 +34,11 @@ class CopyrightNoticeChecker:
         if not os.path.exists(filepath):
             raise SourceCodeFileNotFoundError(filepath)
         with open(filepath, "rb", 0) as f_src:
-            ret = notice_pattern in f_src.read()
-        return ret
+            content = f_src.read()
+            if not content:
+                # Do not add copyright notice to empty file
+                return True
+            return notice_pattern in content
 
     @staticmethod
     def check_files_have_notice(
