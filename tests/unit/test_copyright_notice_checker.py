@@ -111,9 +111,7 @@ class TestCopyrightNoticeChecker:
                 )
 
             return_value = CopyrightNoticeChecker.check_files_have_notice(
-                filenames=filenames,
-                notice_path=notice,
-                enforce_all=True,
+                filenames=filenames, notice_path=notice, enforce_all=True, autofix=False
             )
 
             mock_parse_fn.assert_called_once_with(notice)
@@ -147,12 +145,14 @@ class TestCopyrightNoticeChecker:
                 filenames=filenames,
                 notice_path=notice,
                 enforce_all=True,
+                autofix=False,
             )
 
             mock_fn.assert_called_once_with(
                 filenames=filenames,
                 notice_path=notice,
                 enforce_all=True,
+                autofix=False,
             )
             if side_effect is None:
                 assert exit_code == expected_return

@@ -48,6 +48,7 @@ class TestCmdline:
             list(file_paths),
             "copyright.txt",
             enforce_all=False,
+            autofix=False,
         )
 
     def test_with_notice(self, file_paths):
@@ -60,6 +61,7 @@ class TestCmdline:
             list(file_paths),
             notice_file,
             enforce_all=False,
+            autofix=False,
         )
 
     def test_with_enforce_all(self, file_paths):
@@ -71,4 +73,5 @@ class TestCmdline:
             list(file_paths),
             "copyright.txt",
             enforce_all=True,
+            autofix=False,
         )
