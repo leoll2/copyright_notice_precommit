@@ -156,6 +156,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     )
     parser.add_argument(
         "--autofix",
+        action="store_true",
         default=False,
         help="Permit to add the notice automatically.",
     )
