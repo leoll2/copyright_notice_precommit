@@ -1,0 +1,9 @@
+# Copyright (C) ACME Inc - All Rights Reserved
+#
+# Unauthorized copying of this file, via any medium is strictly prohibited.
+# Proprietary and confidential.
+# Written by Wile E. Coyote <wilecoyote@acme.com>
+# Copyright Notice
+#
+# This software is distributed under the ACME license.
+# All rights reserved.Copyright Notice (C) 1970
