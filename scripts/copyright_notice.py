@@ -4,7 +4,6 @@
 
 import argparse
 import logging
-import mmap
 import os.path
 import sys
 from typing import Optional, Sequence
@@ -34,14 +33,8 @@ class CopyrightNoticeChecker:
         """
         if not os.path.exists(filepath):
             raise SourceCodeFileNotFoundError(filepath)
-        ret = False
-        with open(filepath, "rb", 0) as f_src, mmap.mmap(
-            f_src.fileno(), 0, access=mmap.ACCESS_READ
-        ) as src_bytes:
-            found_pos = src_bytes.find(notice_pattern)
-            if found_pos != -1:
-                ret = True
-        logging.debug("File: %s  NoticePos: %d", filepath, found_pos)
+        with open(filepath, "rb", 0) as f_src:
+            ret = notice_pattern in f_src.read()
         return ret
 
     @staticmethod
