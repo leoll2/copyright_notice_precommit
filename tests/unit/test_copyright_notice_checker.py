@@ -59,10 +59,10 @@ check_files_have_notice_test_data = [
 #   expected return for check_files_have_notice_with_retcode,
 # )
 check_files_have_notice_with_retcode_test_data = [
-    (True, None, 0),
-    (False, None, 1),
-    (None, Exception, 255),
-] + [(None, exc, code) for exc, code in exception_to_retcode_mapping.items()]
+    (True, None, 0, False),
+    (False, None, 1, False),
+    (None, Exception, 255, False),
+] + [(None, exc, code, False) for exc, code in exception_to_retcode_mapping.items()]
 
 
 class TestCopyrightNoticeChecker:
@@ -111,9 +111,7 @@ class TestCopyrightNoticeChecker:
                 )
 
             return_value = CopyrightNoticeChecker.check_files_have_notice(
-                filenames=filenames,
-                notice_path=notice,
-                enforce_all=True,
+                filenames=filenames, notice_path=notice, enforce_all=True, autofix=False
             )
 
             mock_parse_fn.assert_called_once_with(notice)
@@ -126,7 +124,7 @@ class TestCopyrightNoticeChecker:
                 assert return_value == expected_return
 
     @pytest.mark.parametrize(
-        "mock_return, side_effect, expected_return",
+        "mock_return, side_effect, expected_return, autofix",
         check_files_have_notice_with_retcode_test_data,
     )
     def test_check_files_have_notice_with_retcode(
@@ -134,6 +132,7 @@ class TestCopyrightNoticeChecker:
         mock_return,
         side_effect,
         expected_return,
+        autofix,
     ):
         filenames = ["foo.cpp", "bar.py"]
         notice = "copyright.txt"
@@ -147,12 +146,14 @@ class TestCopyrightNoticeChecker:
                 filenames=filenames,
                 notice_path=notice,
                 enforce_all=True,
+                autofix=autofix,
             )
 
             mock_fn.assert_called_once_with(
                 filenames=filenames,
                 notice_path=notice,
                 enforce_all=True,
+                autofix=autofix,
             )
             if side_effect is None:
                 assert exit_code == expected_return

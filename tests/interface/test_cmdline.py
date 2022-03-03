@@ -6,6 +6,7 @@ Test command-line options parsing
 """
 import os
 import shlex
+from pathlib import Path
 from typing import List, Sequence
 from unittest.mock import patch
 
@@ -48,6 +49,7 @@ class TestCmdline:
             list(file_paths),
             "copyright.txt",
             enforce_all=False,
+            autofix=False,
         )
 
     def test_with_notice(self, file_paths):
@@ -60,6 +62,7 @@ class TestCmdline:
             list(file_paths),
             notice_file,
             enforce_all=False,
+            autofix=False,
         )
 
     def test_with_enforce_all(self, file_paths):
@@ -71,4 +74,34 @@ class TestCmdline:
             list(file_paths),
             "copyright.txt",
             enforce_all=True,
+            autofix=False,
         )
+
+    def test_autofix_empty_file(self):
+        this_init = Path(__file__).parent / "__init__.py"
+        notice = Path(__file__).parent.parent / "fixtures" / "notice.txt"
+        assert CopyrightNoticeChecker.check_files_have_notice(
+            filenames=[str(this_init)],
+            notice_path=str(notice),
+            enforce_all=True,
+            autofix=True,
+        )
+        with open(this_init, encoding="utf8") as init:
+            content = init.read()
+
+        assert "Wile E. Coyote" not in content
+
+    def test_autofix_basic(self, tmp_path):
+        file_to_autofix = tmp_path / "file_to_autofix.py"
+        with open(file_to_autofix, "w", encoding="utf8") as fta:
+            fta.write("a = 42")
+        notice = Path(__file__).parent.parent / "fixtures" / "notice.txt"
+        CopyrightNoticeChecker.check_files_have_notice(
+            filenames=[str(file_to_autofix)],
+            notice_path=str(notice),
+            enforce_all=True,
+            autofix=True,
+        )
+        with open(file_to_autofix, encoding="utf8") as fta:
+            content = fta.read()
+        assert "Wile E. Coyote" in content

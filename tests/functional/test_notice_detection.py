@@ -7,6 +7,7 @@ Test the ability of the script to detect copyright notices.
 
 import filecmp
 import os
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -53,6 +54,15 @@ class TestNoticeDetection:
                 notice_path=notice_path,
                 enforce_all=True,
             )
+
+    def test_empty_file(self, notice_as_file):
+        this_init = Path(__file__).parent / "__init__.py"
+        assert CopyrightNoticeChecker.check_files_have_notice(
+            filenames=[this_init],
+            notice_path=notice_as_file,
+            enforce_all=True,
+            autofix=True,
+        )
 
     def test_missing_source_file(self, notice_once_as_file):
         source_code_path = "/nonexisting/path"
