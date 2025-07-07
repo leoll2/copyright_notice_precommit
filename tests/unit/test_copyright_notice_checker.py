@@ -100,7 +100,7 @@ class TestCopyrightNoticeChecker:
 
         with mock_parse_ctx as mock_parse_fn, mock_contains_ctx as mock_contains_fn, (
             pytest_raises_ctx
-        ):  # noqa: E501
+        ):
             mock_parse_fn.return_value = mock_return_parse
             mock_contains_fn.return_value = mock_return_contains
             if side_effect_parse is not None:
